@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ID-Repair</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <!-- Header -->
+ <header>
+  <nav class="navbar">
+    <div class="logo">ID-Repair</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#booking">Book Repair</a></li>
+      <li><a href="#shop">Shop Accessories</a></li>
+      <li><a href="/shop">Shopping</a></li> <!-- New shopping link -->
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <!-- Hero Section -->
+<section class="hero">
+  <div class="hero-slider">
+    <div class="slide active" style="background-image: url('/images/image_01.jpeg');"></div>
+    <div class="slide" style="background-image: url('/images/image_02.jpeg');"></div>
+    <div class="slide" style="background-image: url('/images/image_03.jpeg');"></div>
+    <div class="slide" style="background-image: url('/images/image_04.jpeg');"></div>
+    <div class="slide" style="background-image: url('/images/image_05.jpeg');"></div>
+  </div>
+  
+  <div class="hero-content">
+    <h1>Welcome to ID-Repair</h1>
+    <p>Your trusted phone repair & accessories shop</p>
+    <div class="hero-buttons">
+      <a href="#booking" class="btn-primary">Book a Repair</a>
+      <a href="#shop" class="btn-secondary">Shop Accessories</a>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Services -->
+    <section id="services" class="section">
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Screen Replacement</h3>
+          <p>Quick and reliable screen repairs for all phone models.</p>
+        </div>
+        <div class="service-card">
+          <h3>Battery Replacement</h3>
+          <p>Bring your phone back to life with a new battery.</p>
+        </div>
+        <div class="service-card">
+          <h3>Water Damage Repair</h3>
+          <p>Professional cleaning and recovery for water-damaged phones.</p>
+        </div>
+        <div class="service-card">
+          <h3>Accessories</h3>
+          <p>Cases, chargers, earphones, and more quality accessories.</p>
+        </div>
+      </div>
+    </section>
+
+
+<section id="results" class="section">
+  <h2>Our Work in Action</h2>
+  <div class="results-grid">
+    <div class="result-card">
+      <img src="/images/image_16.jpeg" alt="Before repair">
+      <img src="/images/image_18.jpeg" alt="After repair">
+    </div>
+    <div class="result-card">
+      <img src="/images/image_15.jpeg" alt="Before repair">
+      <img src="/images/image_14.jpeg" alt="After repair">
+    </div>
+  </div>
+</section>
+
+
+    <!-- Booking Form -->
+    <section id="booking" class="section">
+      <h2>Book a Repair</h2>
+      <form action="/book" method="POST" class="booking-form">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" required />
+
+        <label for="email">Email</label>
+        <input type="email" name="email" required />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" name="phone" required />
+
+        <label for="device">Device Model</label>
+        <input type="text" name="device" required />
+
+        <label for="issue">Describe the Issue</label>
+        <textarea name="issue" rows="4" required></textarea>
+
+        <button type="submit" class="btn-primary">Submit Request</button>
+      </form>
+    </section>
+
+    <!-- Shop -->
+    <section id="shop" class="section">
+      <h2>Shop Accessories</h2>
+      <div class="shop-grid">
+        <div class="product-card">
+          <h3>Phone Case</h3>
+          <p>Durable protective cases for all models.</p>
+          <button class="btn-secondary">Buy Now</button>
+        </div>
+        <div class="product-card">
+          <h3>Screen Protector</h3>
+          <p>High-quality tempered glass screen protectors.</p>
+          <button class="btn-secondary">Buy Now</button>
+        </div>
+        <div class="product-card">
+          <h3>Charger</h3>
+          <p>Fast charging adapters and cables.</p>
+          <button class="btn-secondary">Buy Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <h2>Contact Us</h2>
+      <p>Have questions? Get in touch with us today!</p>
+      <ul class="contact-info">
+        <li><strong>Phone:</strong> +353 89 955 7410</li>
+        <li><strong>Email:</strong> info@id-repair.com</li>
+        <li><strong>Address:</strong> Fermoy, Cork</li>
+        <li><strong>Hours:</strong> Mon-Sat 9am - 7pm</li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> Brandon Biakabusua Muanda. All rights reserved.</p>
+    </footer>
+
+    <!-- Inline JavaScript for slideshow -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const slides = document.querySelectorAll(".slide");
+        let index = 0;
+
+        function showNextSlide() {
+          slides[index].classList.remove("active");
+          index = (index + 1) % slides.length;
+          slides[index].classList.add("active");
+        }
+
+        setInterval(showNextSlide, 5000); // change slide every 5s
+      });
+    </script>
+  </body>
+</html>
