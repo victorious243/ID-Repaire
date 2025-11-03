@@ -4,23 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('idrepaire:server');
-var http = require('http');
-var os = require('os');
+import app from '../app.js';
+import debugModule from 'debug';
+import http from 'http';
+import os from 'os';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const debug = debugModule('idrepaire:server');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -37,7 +44,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -61,7 +68,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -85,18 +92,18 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  const addr = server.address();
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
   
   // Get local IP address
-  var interfaces = os.networkInterfaces();
-  var addresses = [];
-  for (var k in interfaces) {
-    for (var k2 in interfaces[k]) {
-      var address = interfaces[k][k2];
+  const interfaces = os.networkInterfaces();
+  const addresses = [];
+  for (const k in interfaces) {
+    for (const k2 in interfaces[k]) {
+      const address = interfaces[k][k2];
       if (address.family === 'IPv4' && !address.internal) {
         addresses.push(address.address);
       }

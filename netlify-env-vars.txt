@@ -1,0 +1,10 @@
+Environment variables to set in Netlify dashboard:
+
+1. GMAIL_USER
+2. GMAIL_CLIENT_ID
+3. GMAIL_CLIENT_SECRET
+4. GMAIL_REFRESH_TOKEN
+5. GMAIL_PASSWORD
+6. ENGINEER_EMAIL
+
+Note: Make sure to keep these values secret and never commit them to the repository.

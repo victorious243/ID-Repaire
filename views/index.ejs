@@ -1,47 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>ID-Repair</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IDLL Phone Repair</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <!-- Header -->
- <header>
-  <nav class="navbar">
-    <div class="logo">ID-Repair</div>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#booking">Book Repair</a></li>
-      <li><a href="#shop">Shop Accessories</a></li>
-      <li><a href="/shop">Shopping</a></li> <!-- New shopping link -->
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+    <header>
+      <nav class="navbar">
+        <div class="logo">IDLL PHONE REPAIR</div>
 
+        <!-- Hamburger Button (mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <!-- Nav Links -->
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#prices">Prices</a></li>
+          <li><a href="#booking">Book Repair</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
     <!-- Hero Section -->
-<section class="hero">
-  <div class="hero-slider">
-    <div class="slide active" style="background-image: url('/images/image_01.jpeg');"></div>
-    <div class="slide" style="background-image: url('/images/image_02.jpeg');"></div>
-    <div class="slide" style="background-image: url('/images/image_03.jpeg');"></div>
-    <div class="slide" style="background-image: url('/images/image_04.jpeg');"></div>
-    <div class="slide" style="background-image: url('/images/image_05.jpeg');"></div>
-  </div>
-  
-  <div class="hero-content">
-    <h1>Welcome to ID-Repair</h1>
-    <p>Your trusted phone repair & accessories shop</p>
-    <div class="hero-buttons">
-      <a href="#booking" class="btn-primary">Book a Repair</a>
-      <a href="#shop" class="btn-secondary">Shop Accessories</a>
-    </div>
-  </div>
-</section>
-
-
+    <section class="hero">
+      <div class="hero-content">
+        <img src="/images/logo_idll _120610.png" alt="IDLL PHONE REPAIR Logo" class="hero-logo">
+        <h1>Welcome to IDLL PHONE REPAIR</h1>
+        <p>Your trusted phone repair & accessories shop</p>
+        <div class="hero-buttons">
+          <a href="#booking" class="btn-primary">Book a Repair</a>
+          <!-- <a href="#shop" class="btn-secondary">Shop Accessories</a> -->
+        </div>
+      </div>
+    </section>
 
     <!-- Services -->
     <section id="services" class="section">
@@ -66,21 +65,43 @@
       </div>
     </section>
 
-
-<section id="results" class="section">
-  <h2>Our Work in Action</h2>
-  <div class="results-grid">
-    <div class="result-card">
-      <img src="/images/image_16.jpeg" alt="Before repair">
-      <img src="/images/image_18.jpeg" alt="After repair">
-    </div>
-    <div class="result-card">
-      <img src="/images/image_15.jpeg" alt="Before repair">
-      <img src="/images/image_14.jpeg" alt="After repair">
-    </div>
-  </div>
-</section>
-
+    <!-- 💰 Repair Prices -->
+    <section id="prices" class="section price-section">
+      <h2>iPhone Screen Repair Prices</h2>
+      <div class="price-table-container">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>iPhone 7 / 8</td><td>€40</td></tr>
+            <tr><td>iPhone 7+ / 8+</td><td>€50</td></tr>
+            <tr><td>iPhone SE 2022</td><td>€55</td></tr>
+            <tr><td>iPhone X / XS / XR</td><td>€70</td></tr>
+            <tr><td>iPhone 11</td><td>€80</td></tr>
+            <tr><td>iPhone 11 Pro</td><td>€100</td></tr>
+            <tr><td>iPhone 11 Pro Max</td><td>€80</td></tr>
+            <tr><td>iPhone 12 / 12 Pro</td><td>€125</td></tr>
+            <tr><td>iPhone 12 Mini</td><td>€115</td></tr>
+            <tr><td>iPhone 12 Pro Max</td><td>€110</td></tr>
+            <tr><td>iPhone 13</td><td>€175</td></tr>
+            <tr><td>iPhone 13 Mini</td><td>€145</td></tr>
+            <tr><td>iPhone 14</td><td>€160</td></tr>
+            <tr><td>iPhone 14+</td><td>€160</td></tr>
+            <tr><td>iPhone 15 / 15+</td><td>€200</td></tr>
+            <tr><td>iPhone 15 Pro</td><td>€250</td></tr>
+            <tr><td>iPhone 15 Pro Max</td><td>€250</td></tr>
+            <tr><td>iPhone 16 / 16+</td><td>€250</td></tr>
+            <tr><td>iPhone 16 Pro / 16 Pro Max</td><td>€300</td></tr>
+            <tr><td>iPhone 17 / 17+</td><td>€400</td></tr>
+            <tr><td>iPhone 17 Pro / 17 Pro Max</td><td>€600</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     <!-- Booking Form -->
     <section id="booking" class="section">
@@ -105,35 +126,13 @@
       </form>
     </section>
 
-    <!-- Shop -->
-    <section id="shop" class="section">
-      <h2>Shop Accessories</h2>
-      <div class="shop-grid">
-        <div class="product-card">
-          <h3>Phone Case</h3>
-          <p>Durable protective cases for all models.</p>
-          <button class="btn-secondary">Buy Now</button>
-        </div>
-        <div class="product-card">
-          <h3>Screen Protector</h3>
-          <p>High-quality tempered glass screen protectors.</p>
-          <button class="btn-secondary">Buy Now</button>
-        </div>
-        <div class="product-card">
-          <h3>Charger</h3>
-          <p>Fast charging adapters and cables.</p>
-          <button class="btn-secondary">Buy Now</button>
-        </div>
-      </div>
-    </section>
-
     <!-- Contact -->
     <section id="contact" class="section">
       <h2>Contact Us</h2>
       <p>Have questions? Get in touch with us today!</p>
       <ul class="contact-info">
         <li><strong>Phone:</strong> +353 89 955 7410</li>
-        <li><strong>Email:</strong> info@id-repair.com</li>
+        <li><strong>Email:</strong> idllphonerepair@gmail.com</li>
         <li><strong>Address:</strong> Fermoy, Cork</li>
         <li><strong>Hours:</strong> Mon-Sat 9am - 7pm</li>
       </ul>
@@ -144,19 +143,29 @@
       <p>&copy; <%= new Date().getFullYear() %> Brandon Biakabusua Muanda. All rights reserved.</p>
     </footer>
 
-    <!-- Inline JavaScript for slideshow -->
+    <!-- JS -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", () => {
         const slides = document.querySelectorAll(".slide");
         let index = 0;
-
-        function showNextSlide() {
+        setInterval(() => {
           slides[index].classList.remove("active");
           index = (index + 1) % slides.length;
           slides[index].classList.add("active");
-        }
+        }, 5000);
 
-        setInterval(showNextSlide, 5000); // change slide every 5s
+        const mobileMenu = document.getElementById("mobile-menu");
+        const navLinks = document.querySelector(".nav-links");
+        mobileMenu.addEventListener("click", () => {
+          mobileMenu.classList.toggle("active");
+          navLinks.classList.toggle("active");
+        });
+
+        const header = document.querySelector("header");
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) header.classList.add("scrolled");
+          else header.classList.remove("scrolled");
+        });
       });
     </script>
   </body>
