@@ -46,11 +46,20 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log('Error handler called:', err.status, err.message);
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // handle 404 errors
+  if (err.status === 404) {
+    console.log('404 error detected, redirecting to home page');
+    return res.redirect('/');
+  }
+
+  // render the error page for other errors
+  console.log('Non-404 error, rendering error page');
   res.status(err.status || 500);
   res.render('error');
 });
