@@ -133,20 +133,25 @@
     <section id="booking" class="section">
       <h2>Book a Repair</h2>
       <form action="/book" method="POST" class="booking-form">
+        <div class="form-honeypot" aria-hidden="true">
+          <label for="booking-website">Website</label>
+          <input type="text" id="booking-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
         <label for="name">Full Name</label>
-        <input type="text" name="name" required />
+        <input type="text" id="name" name="name" maxlength="80" autocomplete="name" required />
 
         <label for="email">Email</label>
-        <input type="email" name="email" required />
+        <input type="email" id="email" name="email" maxlength="120" autocomplete="email" required />
 
         <label for="phone">Phone Number</label>
-        <input type="tel" name="phone" required />
+        <input type="tel" id="phone" name="phone" maxlength="30" autocomplete="tel" required />
 
         <label for="device">Device Model</label>
-        <input type="text" name="device" required />
+        <input type="text" id="device" name="device" maxlength="120" required />
 
         <label for="issue">Describe the Issue</label>
-        <textarea name="issue" rows="4" required></textarea>
+        <textarea id="issue" name="issue" rows="4" maxlength="1000" required></textarea>
 
         <button type="submit" class="btn-primary">Submit Request</button>
       </form>
@@ -158,6 +163,11 @@
       <div class="shop-container">
         <h2>Contact Us</h2>
         <form action="/send-email" method="POST" style="max-width: 600px; margin: 0 auto;">
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="contact-website">Website</label>
+            <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div style="margin-bottom: 15px;">
             <label for="name" style="display: block; margin-bottom: 5px;">Your Name</label>
             <input type="text" id="name" name="name" required 

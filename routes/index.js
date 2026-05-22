@@ -1,11 +1,74 @@
 // routes/index.js
 import express from 'express';
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const router = express.Router();
+const recentSubmissions = new Map();
+
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const MAX_SUBMISSIONS_PER_WINDOW = 3;
+const MAX_FIELD_LENGTHS = {
+  name: 80,
+  email: 120,
+  phone: 30,
+  device: 120,
+  issue: 1000,
+  message: 1500,
+};
+const URL_PATTERN = /(?:https?:\/\/|www\.|[a-z0-9-]+\.(?:com|net|org|io|co|do|in|ru|xyz|top|info|biz|click|link|site|online)\b)/i;
+const SPAM_TERMS = /\b(?:btc|bitcoin|crypto|withdraw|profit|urgent message|obtain profit|reference id|version id)\b/i;
+const RANDOM_TOKEN_PATTERN = /\b(?=[a-z0-9|]{24,}\b)(?=.*[a-z])(?=.*\d)[a-z0-9|]+\b/i;
+
+function clean(value = '') {
+  return String(value).replace(/\s+/g, ' ').trim();
+}
+
+function getClientIp(req) {
+  return req.ip || req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+}
+
+function isRateLimited(key) {
+  const now = Date.now();
+  for (const [storedKey, timestamps] of recentSubmissions) {
+    if (!timestamps.some((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS)) {
+      recentSubmissions.delete(storedKey);
+    }
+  }
+
+  const current = recentSubmissions.get(key) || [];
+  const fresh = current.filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
+
+  if (fresh.length >= MAX_SUBMISSIONS_PER_WINDOW) {
+    recentSubmissions.set(key, fresh);
+    return true;
+  }
+
+  fresh.push(now);
+  recentSubmissions.set(key, fresh);
+  return false;
+}
+
+function hasInvalidLength(fields) {
+  return Object.entries(fields).some(([field, value]) => {
+    const max = MAX_FIELD_LENGTHS[field];
+    return max && clean(value).length > max;
+  });
+}
+
+function hasSpamContent(fields) {
+  const combined = Object.values(fields).map(clean).join(' ');
+  return URL_PATTERN.test(combined) || SPAM_TERMS.test(combined) || RANDOM_TOKEN_PATTERN.test(combined);
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean(email));
+}
+
+function isLikelyHumanSubmission(req, fields) {
+  return !clean(req.body.website) && !hasInvalidLength(fields) && !hasSpamContent(fields);
+}
 
 // Home page
 router.get('/', function(req, res, next) {
@@ -31,13 +94,22 @@ router.get('/', function(req, res, next) {
 // Handle email submissions
 router.post('/send-email', async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const fields = {
+      name: clean(req.body.name),
+      email: clean(req.body.email),
+      message: clean(req.body.message),
+    };
+
+    if (!fields.name || !isValidEmail(fields.email) || !fields.message || !isLikelyHumanSubmission(req, fields) || isRateLimited(`contact:${getClientIp(req)}`)) {
+      return res.redirect('/shop?emailSent=false');
+    }
     
     const mailOptions = {
-      from: `${name} <${email}>`,
+      from: `"Website Contact" <${process.env.GMAIL_USER}>`,
+      replyTo: `${fields.name} <${fields.email}>`,
       to: process.env.GMAIL_USER,
-      subject: `New Contact Message from ${name}`,
-      text: `From: ${email}\n\n${message}`
+      subject: `New Contact Message from ${fields.name}`,
+      text: `From: ${fields.email}\n\n${fields.message}`
     };
 
     await req.app.locals.transporter.sendMail(mailOptions);
@@ -52,39 +124,51 @@ router.post('/send-email', async (req, res) => {
 
 // Handle booking submissions
 router.post('/book', async (req, res) => {
-  const { name, email, phone, device, issue } = req.body;
+  const fields = {
+    name: clean(req.body.name),
+    email: clean(req.body.email),
+    phone: clean(req.body.phone),
+    device: clean(req.body.device),
+    issue: clean(req.body.issue),
+  };
+
+  if (!fields.name || !isValidEmail(fields.email) || !fields.phone || !fields.device || !fields.issue || !isLikelyHumanSubmission(req, fields) || isRateLimited(`booking:${getClientIp(req)}`)) {
+    console.warn('Blocked suspicious booking submission.');
+    return res.redirect('/?bookingSuccess=false');
+  }
 
   // Compose the email content for the engineer
   const engineerMailOptions = {
-    from: `"Repair Booking" <${process.env.EMAIL_USER}>`,
+    from: `"Repair Booking" <${process.env.GMAIL_USER}>`,
+    replyTo: `${fields.name} <${fields.email}>`,
     to: process.env.ENGINEER_EMAIL,
-    subject: `New Repair Booking from ${name}`,
+    subject: `New Repair Booking from ${fields.name}`,
     text: `
 A new booking request has been submitted.
 
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Device: ${device}
+Name: ${fields.name}
+Email: ${fields.email}
+Phone: ${fields.phone}
+Device: ${fields.device}
 
 Issue Description:
-${issue}
+${fields.issue}
     `,
   };
 
   // Compose the email content for the user
   const userMailOptions = {
-    from: `"ID Repair Booking Confirmation" <${process.env.EMAIL_USER}>`,
-    to: email,
+    from: `"ID Repair Booking Confirmation" <${process.env.GMAIL_USER}>`,
+    to: fields.email,
     subject: `Your Repair Booking Confirmation`,
     text: `
-Dear ${name},
+Dear ${fields.name},
 
 Thank you for booking a repair with ID Repair. We have received your request and an engineer will be assigned to your case shortly.
 
 Booking Details:
-Device: ${device}
-Issue: ${issue}
+Device: ${fields.device}
+Issue: ${fields.issue}
 
 We will contact you soon with further information about your repair.
 
